@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koding & AI - Dashboard Pembelajaran</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .sidebar-gradient { background: linear-gradient(180deg, #1e3a8a 0%, #3730a3 50%, #581c87 100%); }
+        .content-fade { animation: fadeInUp 0.5s ease-out; }
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        .menu-item { transition: all 0.3s ease; }
+        .menu-item:hover { transform: translateX(8px); }
+        .menu-item.active { 
+            background: rgba(255, 255, 255, 0.2); 
+            border-left: 4px solid #fbbf24; 
+            transform: translateX(8px);
+        }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .progress-bar { 
+            background: linear-gradient(90deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+        .floating { animation: floating 3s ease-in-out infinite; }
+        @keyframes floating { 
+            0%, 100% { transform: translateY(0px); } 
+            50% { transform: translateY(-10px); } 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-hidden">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar-gradient w-80 shadow-2xl flex flex-col">
+            <!-- Header -->
+            <div class="p-6 border-b border-white/20">
+                <div class="flex items-center mb-4">
+                    <div class="text-3xl mr-3">💻</div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">Koding & AI</h1>
+                        <p class="text-blue-200 text-sm">SMA Kelas 10 Fase E</p>
+                    </div>
+                </div>
+                <div class="bg-white/10 rounded-lg p-3">
+                    <div class="flex items-center justify-between text-white text-sm mb-2">
+                        <span>Progress Pembelajaran</span>
+                        <span class="font-semibold">65%</span>
+                    </div>
+                    <div class="bg-white/20 rounded-full h-2">
+                        <div class="progress-bar h-2 rounded-full w-2/3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 p-4 overflow-y-auto">
+                <div class="space-y-2">
+                    <div class="menu-item active p-4 rounded-lg cursor-pointer text-white" onclick="showContent('dashboard')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">🏠</div>
+                            <div>
+                                <div class="font-semibold">Dashboard</div>
+                                <div class="text-xs text-blue-200">Ringkasan pembelajaran</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('bk')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">🧠</div>
+                            <div>
+                                <div class="font-semibold">Berpikir Komputasional</div>
+                                <div class="text-xs text-blue-200">Logika & pemecahan masalah</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-green-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-green-300">Selesai</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('ld')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">📱</div>
+                            <div>
+                                <div class="font-semibold">Literasi Digital</div>
+                                <div class="text-xs text-blue-200">Keamanan & etika digital</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-yellow-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-yellow-300">Sedang belajar</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('ap')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">⚙️</div>
+                            <div>
+                                <div class="font-semibold">Algoritma Pemrograman</div>
+                                <div class="text-xs text-blue-200">Python & JavaScript</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-blue-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-blue-300">Tersedia</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('ad')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">📊</div>
+                            <div>
+                                <div class="font-semibold">Analisis Data</div>
+                                <div class="text-xs text-blue-200">Excel & Pandas</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-blue-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-blue-300">Tersedia</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('leka')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">🤖</div>
+                            <div>
+                                <div class="font-semibold">Literasi & Etika AI</div>
+                                <div class="text-xs text-blue-200">Konsep & etika AI</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-gray-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-gray-300">Terkunci</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-item p-4 rounded-lg cursor-pointer text-white" onclick="showContent('ppka')">
+                        <div class="flex items-center">
+                            <div class="text-2xl mr-4">🚀</div>
+                            <div>
+                                <div class="font-semibold">Pemanfaatan & Pengembangan AI</div>
+                                <div class="text-xs text-blue-200">Aplikasi praktis AI</div>
+                            </div>
+                        </div>
+                        <div class="mt-2 flex items-center">
+                            <div class="bg-gray-500 w-2 h-2 rounded-full mr-2"></div>
+                            <span class="text-xs text-gray-300">Terkunci</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Footer Sidebar -->
+            <div class="p-4 border-t border-white/20">
+                <div class="bg-white/10 rounded-lg p-3 text-center">
+                    <div class="text-white text-sm mb-2">👨‍🏫 Pak Zunny</div>
+                    <div class="text-blue-200 text-xs">Koding dan Kecerdasan Artifisial</div>
+                    <button onclick="openConsultation()" class="mt-2 bg-yellow-500 text-yellow-900 px-3 py-1 rounded-full text-xs font-semibold hover:bg-yellow-400 transition-colors">
+                        💬 Konsultasi
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Bar -->
+            <div class="bg-white shadow-sm border-b p-4 flex justify-between items-center">
+                <div>
+                    <h2 id="contentTitle" class="text-2xl font-bold text-gray-800">Dashboard Pembelajaran</h2>
+                    <p id="contentSubtitle" class="text-gray-600">Selamat datang di platform pembelajaran Koding & AI</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-blue-100 p-2 rounded-lg">
+                        <div class="text-blue-600 text-sm font-semibold">Kelas X-A</div>
+                    </div>
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+                        S
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="flex-1 overflow-y-auto p-6">
+                <div id="contentArea" class="content-fade">
+                    <!-- Dashboard Content (Default) -->
+                    <div id="dashboard-content">
+                        <!-- Stats Cards -->
+                        <div class="grid md:grid-cols-4 gap-6 mb-8">
+                            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Materi Selesai</p>
+                                        <p class="text-2xl font-bold text-green-600">2/6</p>
+                                    </div>
+                                    <div class="text-3xl">✅</div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Sedang Belajar</p>
+                                        <p class="text-2xl font-bold text-yellow-600">1</p>
+                                    </div>
+                                    <div class="text-3xl">📚</div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Total Latihan</p>
+                                        <p class="text-2xl font-bold text-blue-600">24</p>
+                                    </div>
+                                    <div class="text-3xl">🎯</div>
+                                </div>
+                            </div>
+                            <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <p class="text-gray-600 text-sm">Nilai Rata-rata</p>
+                                        <p class="text-2xl font-bold text-purple-600">85</p>
+                                    </div>
+                                    <div class="text-3xl">⭐</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="grid lg:grid-cols-2 gap-6 mb-8">
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">📈</span>
+                                    Progress Pembelajaran
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">Berpikir Komputasional</span>
+                                        <span class="text-sm font-semibold text-green-600">100%</span>
+                                    </div>
+                                    <div class="bg-gray-200 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full w-full"></div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">Literasi Digital</span>
+                                        <span class="text-sm font-semibold text-yellow-600">75%</span>
+                                    </div>
+                                    <div class="bg-gray-200 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full w-3/4"></div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">Algoritma Pemrograman</span>
+                                        <span class="text-sm font-semibold text-blue-600">25%</span>
+                                    </div>
+                                    <div class="bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full w-1/4"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🎯</span>
+                                    Tugas Terbaru
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-sm">Quiz Literasi Digital</p>
+                                            <p class="text-xs text-gray-600">Deadline: 2 hari lagi</p>
+                                        </div>
+                                        <span class="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">Pending</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-sm">Latihan Python Dasar</p>
+                                            <p class="text-xs text-gray-600">Deadline: 5 hari lagi</p>
+                                        </div>
+                                        <span class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Tersedia</span>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                        <div>
+                                            <p class="font-medium text-sm">Project Flowchart</p>
+                                            <p class="text-xs text-gray-600">Selesai: 3 hari lalu</p>
+                                        </div>
+                                        <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Selesai</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Actions -->
+                        <div class="bg-white rounded-xl p-6 shadow-sm">
+                            <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                <span class="text-2xl mr-2">⚡</span>
+                                Aksi Cepat
+                            </h3>
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <button onclick="showContent('ld')" class="p-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all">
+                                    <div class="text-2xl mb-2">📱</div>
+                                    <div class="font-semibold">Lanjutkan Literasi Digital</div>
+                                </button>
+                                <button onclick="showContent('ap')" class="p-4 bg-gradient-to-r from-blue-500 to-cyan-500 text-white rounded-lg hover:from-blue-600 hover:to-cyan-600 transition-all">
+                                    <div class="text-2xl mb-2">⚙️</div>
+                                    <div class="font-semibold">Mulai Algoritma</div>
+                                </button>
+                                <button onclick="openConsultation()" class="p-4 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-lg hover:from-green-600 hover:to-teal-600 transition-all">
+                                    <div class="text-2xl mb-2">💬</div>
+                                    <div class="font-semibold">Tanya Guru</div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContent(section) {
+            // Update active menu
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            // Content data
+            const contentData = {
+                dashboard: {
+                    title: 'Dashboard Pembelajaran',
+                    subtitle: 'Selamat datang di platform pembelajaran Koding & AI',
+                    content: document.getElementById('dashboard-content').innerHTML
+                },
+                bk: {
+                    title: '🧠 Berpikir Komputasional',
+                    subtitle: 'Mengembangkan kemampuan berpikir logis dan sistematis',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Berpikir Komputasional</h2>
+                                        <p class="text-blue-100 mb-4">Memecahkan masalah dengan pendekatan sistematis</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-green-500 px-3 py-1 rounded-full text-sm font-semibold">✅ Selesai</span>
+                                            <span class="ml-4 text-sm">Progress: 100%</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">🧠</div>
+                                </div>
+                            </div>
+
+                            <!-- Learning Modules -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🔍</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Dekomposisi</h3>
+                                            <p class="text-gray-600 text-sm">Memecah masalah kompleks</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Belajar memecah masalah besar menjadi bagian-bagian kecil yang lebih mudah dikelola dan diselesaikan.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-green-600 text-sm font-semibold">✅ Selesai</span>
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">Review</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-purple-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🎯</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Pengenalan Pola</h3>
+                                            <p class="text-gray-600 text-sm">Identifikasi kesamaan</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Mengidentifikasi pola dan kesamaan dalam data atau masalah untuk menemukan solusi yang efisien.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-green-600 text-sm font-semibold">✅ Selesai</span>
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">Review</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">📝</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Abstraksi</h3>
+                                            <p class="text-gray-600 text-sm">Fokus pada hal penting</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Menyederhanakan masalah dengan fokus pada informasi penting dan mengabaikan detail yang tidak relevan.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-green-600 text-sm font-semibold">✅ Selesai</span>
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">Review</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-orange-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">⚙️</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Algoritma</h3>
+                                            <p class="text-gray-600 text-sm">Langkah sistematis</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Membuat serangkaian langkah sistematis dan logis untuk menyelesaikan masalah secara efektif.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-green-600 text-sm font-semibold">✅ Selesai</span>
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">Review</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Achievements -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🏆</span>
+                                    Pencapaian
+                                </h3>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="text-center p-4 bg-yellow-50 rounded-lg">
+                                        <div class="text-3xl mb-2">🥇</div>
+                                        <p class="font-semibold text-sm">Problem Solver</p>
+                                        <p class="text-xs text-gray-600">Menyelesaikan 10 latihan</p>
+                                    </div>
+                                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                        <div class="text-3xl mb-2">🎯</div>
+                                        <p class="font-semibold text-sm">Pattern Master</p>
+                                        <p class="text-xs text-gray-600">Identifikasi 15 pola</p>
+                                    </div>
+                                    <div class="text-center p-4 bg-green-50 rounded-lg">
+                                        <div class="text-3xl mb-2">⚡</div>
+                                        <p class="font-semibold text-sm">Quick Thinker</p>
+                                        <p class="text-xs text-gray-600">Selesai dalam waktu record</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                ld: {
+                    title: '📱 Literasi Digital',
+                    subtitle: 'Menggunakan teknologi digital secara aman dan bertanggung jawab',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Literasi Digital</h2>
+                                        <p class="text-purple-100 mb-4">Navigasi dunia digital dengan aman dan bijak</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-yellow-500 px-3 py-1 rounded-full text-sm font-semibold">📚 Sedang Belajar</span>
+                                            <span class="ml-4 text-sm">Progress: 75%</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">📱</div>
+                                </div>
+                            </div>
+
+                            <!-- Current Learning -->
+                            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-6 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-2">⏰</span>
+                                    <h3 class="font-semibold text-lg">Sedang Dipelajari</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4">Modul: Keamanan Digital - Melindungi Data Pribadi</p>
+                                <div class="bg-yellow-200 rounded-full h-2 mb-4">
+                                    <div class="bg-yellow-500 h-2 rounded-full w-3/4"></div>
+                                </div>
+                                <button class="bg-yellow-500 text-white px-6 py-2 rounded-lg hover:bg-yellow-600">Lanjutkan Belajar</button>
+                            </div>
+
+                            <!-- Learning Modules -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🔒</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Keamanan Digital</h3>
+                                            <p class="text-gray-600 text-sm">Password & Privasi</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Belajar membuat password yang kuat, mengenali phishing, dan melindungi data pribadi online.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-yellow-600 text-sm font-semibold">📚 75% Selesai</span>
+                                        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Lanjutkan</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🌐</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Etika Digital</h3>
+                                            <p class="text-gray-600 text-sm">Netiquette & Hak Cipta</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Memahami etika berkomunikasi online, menghormati hak cipta, dan membangun jejak digital positif.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-green-600 text-sm font-semibold">✅ Selesai</span>
+                                        <button class="bg-blue-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-600">Review</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-red-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">📰</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Media Literacy</h3>
+                                            <p class="text-gray-600 text-sm">Hoax & Misinformasi</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Mengenali berita hoax, memverifikasi informasi, dan mengembangkan critical thinking.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-600 text-sm font-semibold">🔓 Tersedia</span>
+                                        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Mulai</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">☁️</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Digital Tools</h3>
+                                            <p class="text-gray-600 text-sm">Cloud & Produktivitas</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Menggunakan tools digital untuk produktivitas, cloud storage, dan kolaborasi online.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-600 text-sm font-semibold">🔓 Tersedia</span>
+                                        <button class="bg-purple-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-purple-600">Mulai</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Quiz Section -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🎯</span>
+                                    Quiz & Latihan
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                                        <h4 class="font-semibold mb-2">Quiz Keamanan Digital</h4>
+                                        <p class="text-sm text-gray-600 mb-3">15 soal tentang password dan phishing</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-yellow-600 text-sm font-semibold">⏰ Deadline: 2 hari</span>
+                                            <button class="bg-yellow-500 text-white px-3 py-1 rounded text-sm">Kerjakan</button>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                                        <h4 class="font-semibold mb-2">Simulasi Phishing</h4>
+                                        <p class="text-sm text-gray-600 mb-3">Latihan mengenali email phishing</p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-green-600 text-sm font-semibold">✅ Nilai: 90</span>
+                                            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">Lihat Hasil</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                ap: {
+                    title: '⚙️ Algoritma Pemrograman',
+                    subtitle: 'Mempelajari dasar-dasar algoritma dan bahasa pemrograman',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-green-500 to-blue-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Algoritma Pemrograman</h2>
+                                        <p class="text-green-100 mb-4">Membangun logika pemrograman dengan Python & JavaScript</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-blue-500 px-3 py-1 rounded-full text-sm font-semibold">🔓 Tersedia</span>
+                                            <span class="ml-4 text-sm">Progress: 0%</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">⚙️</div>
+                                </div>
+                            </div>
+
+                            <!-- Getting Started -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-2">🚀</span>
+                                    <h3 class="font-semibold text-lg">Siap Memulai?</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4">Mulai perjalanan coding Anda dengan mempelajari konsep dasar algoritma dan pemrograman.</p>
+                                <button class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">Mulai Belajar</button>
+                            </div>
+
+                            <!-- Programming Languages -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🐍</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Python Programming</h3>
+                                            <p class="text-gray-600 text-sm">Bahasa pemrograman untuk pemula</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-900 text-green-400 p-4 rounded-lg mb-4 font-mono text-sm">
+                                        <div>print("Hello, World!")</div>
+                                        <div>name = "Siswa"</div>
+                                        <div>print(f"Selamat belajar, {name}!")</div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-600 text-sm font-semibold">🔓 12 Modul</span>
+                                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">Mulai Python</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-yellow-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🌐</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">JavaScript</h3>
+                                            <p class="text-gray-600 text-sm">Bahasa web interaktif</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-900 text-green-400 p-4 rounded-lg mb-4 font-mono text-sm">
+                                        <div>function sayHello() {</div>
+                                        <div>&nbsp;&nbsp;alert("Hello, World!");</div>
+                                        <div>}</div>
+                                        <div>sayHello();</div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-500 text-sm font-semibold">🔒 Terkunci</span>
+                                        <button class="bg-gray-400 text-white px-4 py-2 rounded-lg text-sm cursor-not-allowed">Selesaikan Python</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Learning Path -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🛤️</span>
+                                    Jalur Pembelajaran
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                                        <div class="bg-blue-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">1</div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Konsep Dasar Algoritma</h4>
+                                            <p class="text-sm text-gray-600">Flowchart, pseudocode, dan logika dasar</p>
+                                        </div>
+                                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">Mulai</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">2</div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Variabel & Tipe Data</h4>
+                                            <p class="text-sm text-gray-600">String, integer, float, boolean</p>
+                                        </div>
+                                        <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-sm">Terkunci</span>
+                                    </div>
+                                    
+                                    <div class="flex items-center p-4 bg-gray-50 rounded-lg opacity-60">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                                        <div class="flex-1">
+                                            <h4 class="font-semibold">Control Flow</h4>
+                                            <p class="text-sm text-gray-600">If-else, loops, conditional statements</p>
+                                        </div>
+                                        <span class="bg-gray-400 text-white px-3 py-1 rounded-full text-sm">Terkunci</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Practice Projects -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🎯</span>
+                                    Proyek Latihan
+                                </h3>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center opacity-60">
+                                        <div class="text-3xl mb-2">🧮</div>
+                                        <h4 class="font-semibold mb-2">Kalkulator Sederhana</h4>
+                                        <p class="text-sm text-gray-600 mb-3">Operasi matematika dasar</p>
+                                        <span class="text-gray-500 text-sm">Terkunci</span>
+                                    </div>
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center opacity-60">
+                                        <div class="text-3xl mb-2">🎲</div>
+                                        <h4 class="font-semibold mb-2">Game Tebak Angka</h4>
+                                        <p class="text-sm text-gray-600 mb-3">Random number guessing</p>
+                                        <span class="text-gray-500 text-sm">Terkunci</span>
+                                    </div>
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg text-center opacity-60">
+                                        <div class="text-3xl mb-2">📝</div>
+                                        <h4 class="font-semibold mb-2">To-Do List</h4>
+                                        <p class="text-sm text-gray-600 mb-3">Manajemen tugas sederhana</p>
+                                        <span class="text-gray-500 text-sm">Terkunci</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                ad: {
+                    title: '📊 Analisis Data',
+                    subtitle: 'Mengolah dan menganalisis data untuk menghasilkan insight',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-orange-500 to-red-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Analisis Data</h2>
+                                        <p class="text-orange-100 mb-4">Mengubah data menjadi insight yang bermakna</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-blue-500 px-3 py-1 rounded-full text-sm font-semibold">🔓 Tersedia</span>
+                                            <span class="ml-4 text-sm">Progress: 0%</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">📊</div>
+                                </div>
+                            </div>
+
+                            <!-- Prerequisites -->
+                            <div class="bg-orange-50 border-l-4 border-orange-500 p-6 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-2">⚠️</span>
+                                    <h3 class="font-semibold text-lg">Prasyarat</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4">Selesaikan modul Algoritma Pemrograman terlebih dahulu untuk memahami konsep dasar programming.</p>
+                                <button class="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600">Lihat Prasyarat</button>
+                            </div>
+
+                            <!-- Data Analysis Tools -->
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-green-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">📊</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Microsoft Excel</h3>
+                                            <p class="text-gray-600 text-sm">Spreadsheet & Pivot Tables</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Belajar menggunakan Excel untuk analisis data dasar, membuat grafik, dan pivot tables.</p>
+                                    <div class="bg-gray-50 p-3 rounded-lg mb-4">
+                                        <p class="text-sm font-mono">= VLOOKUP(A2, Data!A:C, 3, FALSE)</p>
+                                        <p class="text-sm font-mono">= SUMIF(B:B, ">100", C:C)</p>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-blue-600 text-sm font-semibold">🔓 8 Modul</span>
+                                        <button class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-600">Mulai Excel</button>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white rounded-xl p-6 shadow-sm card-hover opacity-60">
+                                    <div class="flex items-center mb-4">
+                                        <div class="bg-blue-100 p-3 rounded-lg mr-4">
+                                            <span class="text-2xl">🐍</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-lg">Python Pandas</h3>
+                                            <p class="text-gray-600 text-sm">Data manipulation & analysis</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-4">Menggunakan library Pandas untuk manipulasi dan analisis data yang lebih kompleks.</p>
+                                    <div class="bg-gray-900 text-green-400 p-3 rounded-lg mb-4 font-mono text-sm">
+                                        <div>import pandas as pd</div>
+                                        <div>df = pd.read_csv('data.csv')</div>
+                                        <div>df.describe()</div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-gray-500 text-sm font-semibold">🔒 Terkunci</span>
+                                        <button class="bg-gray-400 text-white px-4 py-2 rounded-lg text-sm cursor-not-allowed">Selesaikan Excel</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Data Analysis Process -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🔄</span>
+                                    Proses Analisis Data
+                                </h3>
+                                <div class="grid md:grid-cols-4 gap-4">
+                                    <div class="text-center p-4 bg-blue-50 rounded-lg">
+                                        <div class="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">1</div>
+                                        <h4 class="font-semibold mb-2">📥 Collect</h4>
+                                        <p class="text-sm text-gray-600">Mengumpulkan data dari berbagai sumber</p>
+                                    </div>
+                                    <div class="text-center p-4 bg-purple-50 rounded-lg">
+                                        <div class="bg-purple-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">2</div>
+                                        <h4 class="font-semibold mb-2">🧹 Clean</h4>
+                                        <p class="text-sm text-gray-600">Membersihkan dan memvalidasi data</p>
+                                    </div>
+                                    <div class="text-center p-4 bg-green-50 rounded-lg">
+                                        <div class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">3</div>
+                                        <h4 class="font-semibold mb-2">🔍 Analyze</h4>
+                                        <p class="text-sm text-gray-600">Menganalisis pola dan tren</p>
+                                    </div>
+                                    <div class="text-center p-4 bg-orange-50 rounded-lg">
+                                        <div class="bg-orange-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">4</div>
+                                        <h4 class="font-semibold mb-2">📈 Visualize</h4>
+                                        <p class="text-sm text-gray-600">Membuat grafik dan dashboard</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sample Projects -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">📋</span>
+                                    Proyek Analisis Data
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg opacity-60">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="font-semibold">📚 Analisis Nilai Siswa</h4>
+                                                <p class="text-sm text-gray-600">Menganalisis distribusi nilai dan performa kelas</p>
+                                            </div>
+                                            <span class="text-gray-500 text-sm">Terkunci</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg opacity-60">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="font-semibold">🛒 Analisis Penjualan</h4>
+                                                <p class="text-sm text-gray-600">Tren penjualan dan prediksi demand</p>
+                                            </div>
+                                            <span class="text-gray-500 text-sm">Terkunci</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg opacity-60">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="font-semibold">🌡️ Analisis Cuaca</h4>
+                                                <p class="text-sm text-gray-600">Pola cuaca dan korelasi suhu-hujan</p>
+                                            </div>
+                                            <span class="text-gray-500 text-sm">Terkunci</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                leka: {
+                    title: '🤖 Literasi & Etika Kecerdasan Artifisial',
+                    subtitle: 'Memahami AI dan menggunakannya secara etis',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Literasi & Etika AI</h2>
+                                        <p class="text-pink-100 mb-4">Memahami kecerdasan artifisial dan dampaknya</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-gray-500 px-3 py-1 rounded-full text-sm font-semibold">🔒 Terkunci</span>
+                                            <span class="ml-4 text-sm">Selesaikan Analisis Data dulu</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">🤖</div>
+                                </div>
+                            </div>
+
+                            <!-- Prerequisites -->
+                            <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-2">🔒</span>
+                                    <h3 class="font-semibold text-lg">Modul Terkunci</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4">Selesaikan modul Analisis Data terlebih dahulu untuk membuka materi Literasi & Etika AI.</p>
+                                <div class="bg-red-100 p-3 rounded-lg">
+                                    <p class="text-sm font-semibold text-red-800">Prasyarat yang belum terpenuhi:</p>
+                                    <ul class="text-sm text-red-700 mt-2 space-y-1">
+                                        <li>• ❌ Analisis Data (0% selesai)</li>
+                                        <li>• ❌ Minimal 3 proyek data analysis</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Preview Content -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm opacity-60">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">👁️</span>
+                                    Preview Materi
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-2xl mr-3">🧠</span>
+                                            <h4 class="font-semibold">Konsep Dasar AI</h4>
+                                        </div>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li>• Machine Learning</li>
+                                            <li>• Neural Networks</li>
+                                            <li>• Deep Learning</li>
+                                            <li>• Natural Language Processing</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-2xl mr-3">⚖️</span>
+                                            <h4 class="font-semibold">Etika AI</h4>
+                                        </div>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li>• Bias dalam algoritma</li>
+                                            <li>• Privacy & keamanan data</li>
+                                            <li>• Transparansi AI</li>
+                                            <li>• Dampak sosial AI</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Learning Path Preview -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm opacity-60">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🛤️</span>
+                                    Jalur Pembelajaran (Preview)
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">1</div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-600">Sejarah & Perkembangan AI</h4>
+                                            <p class="text-sm text-gray-500">Dari Turing Test hingga ChatGPT</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">2</div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-600">Jenis-jenis AI</h4>
+                                            <p class="text-sm text-gray-500">Narrow AI, General AI, Super AI</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                                        <div>
+                                            <h4 class="font-semibold text-gray-600">Etika & Tanggung Jawab</h4>
+                                            <p class="text-sm text-gray-500">Penggunaan AI yang bertanggung jawab</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Unlock Progress -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🔓</span>
+                                    Cara Membuka Modul
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-4 bg-blue-50 rounded-lg">
+                                        <div class="bg-blue-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">1</div>
+                                        <div>
+                                            <h4 class="font-semibold">Selesaikan Algoritma Pemrograman</h4>
+                                            <p class="text-sm text-gray-600">Minimal 80% progress dengan nilai rata-rata 75</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-4 bg-orange-50 rounded-lg">
+                                        <div class="bg-orange-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">2</div>
+                                        <div>
+                                            <h4 class="font-semibold">Selesaikan Analisis Data</h4>
+                                            <p class="text-sm text-gray-600">Selesaikan semua modul dan 3 proyek praktik</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                                        <div class="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                                        <div>
+                                            <h4 class="font-semibold">Akses Literasi & Etika AI</h4>
+                                            <p class="text-sm text-gray-600">Modul akan terbuka otomatis setelah prasyarat terpenuhi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                },
+                ppka: {
+                    title: '🚀 Pemanfaatan & Pengembangan Kecerdasan Artifisial',
+                    subtitle: 'Aplikasi praktis dan pengembangan solusi AI',
+                    content: `
+                        <div class="space-y-6">
+                            <!-- Hero Section -->
+                            <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-8">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h2 class="text-3xl font-bold mb-2">Pemanfaatan & Pengembangan AI</h2>
+                                        <p class="text-indigo-100 mb-4">Implementasi praktis teknologi AI</p>
+                                        <div class="flex items-center">
+                                            <span class="bg-gray-500 px-3 py-1 rounded-full text-sm font-semibold">🔒 Terkunci</span>
+                                            <span class="ml-4 text-sm">Modul terakhir dalam kurikulum</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-6xl floating">🚀</div>
+                                </div>
+                            </div>
+
+                            <!-- Prerequisites -->
+                            <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg">
+                                <div class="flex items-center mb-2">
+                                    <span class="text-2xl mr-2">🔒</span>
+                                    <h3 class="font-semibold text-lg">Modul Tingkat Lanjut</h3>
+                                </div>
+                                <p class="text-gray-700 mb-4">Ini adalah modul terakhir yang membutuhkan penguasaan semua materi sebelumnya.</p>
+                                <div class="bg-red-100 p-3 rounded-lg">
+                                    <p class="text-sm font-semibold text-red-800">Prasyarat yang belum terpenuhi:</p>
+                                    <ul class="text-sm text-red-700 mt-2 space-y-1">
+                                        <li>• ❌ Literasi & Etika AI (0% selesai)</li>
+                                        <li>• ❌ Sertifikat completion semua modul</li>
+                                        <li>• ❌ Final project portfolio</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Preview Content -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm opacity-60">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🔮</span>
+                                    Preview Materi Lanjutan
+                                </h3>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-2xl mr-3">🛠️</span>
+                                            <h4 class="font-semibold">AI Tools & Platforms</h4>
+                                        </div>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li>• ChatGPT & GPT APIs</li>
+                                            <li>• Google AI Platform</li>
+                                            <li>• TensorFlow & Keras</li>
+                                            <li>• Hugging Face Models</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-4 bg-gray-50 rounded-lg">
+                                        <div class="flex items-center mb-3">
+                                            <span class="text-2xl mr-3">🎯</span>
+                                            <h4 class="font-semibold">Proyek Aplikasi</h4>
+                                        </div>
+                                        <ul class="text-sm text-gray-600 space-y-1">
+                                            <li>• Chatbot customer service</li>
+                                            <li>• Image classification app</li>
+                                            <li>• Recommendation system</li>
+                                            <li>• Sentiment analysis tool</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Career Paths -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm opacity-60">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">💼</span>
+                                    Jalur Karir AI (Preview)
+                                </h3>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                        <div class="text-3xl mb-3">👨‍💻</div>
+                                        <h4 class="font-semibold mb-2">AI Engineer</h4>
+                                        <p class="text-sm text-gray-600">Mengembangkan sistem dan aplikasi AI</p>
+                                        <div class="mt-3 text-xs text-gray-500">
+                                            <p>Gaji: 15-50 juta/bulan</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                        <div class="text-3xl mb-3">📊</div>
+                                        <h4 class="font-semibold mb-2">Data Scientist</h4>
+                                        <p class="text-sm text-gray-600">Analisis data dengan machine learning</p>
+                                        <div class="mt-3 text-xs text-gray-500">
+                                            <p>Gaji: 12-40 juta/bulan</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                        <div class="text-3xl mb-3">🔬</div>
+                                        <h4 class="font-semibold mb-2">ML Researcher</h4>
+                                        <p class="text-sm text-gray-600">Penelitian algoritma dan model baru</p>
+                                        <div class="mt-3 text-xs text-gray-500">
+                                            <p>Gaji: 20-80 juta/bulan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Final Projects Preview -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm opacity-60">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🏆</span>
+                                    Capstone Projects (Preview)
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="font-semibold">🤖 AI Assistant untuk Sekolah</h4>
+                                                <p class="text-sm text-gray-600">Chatbot yang dapat menjawab pertanyaan siswa tentang jadwal, tugas, dan informasi sekolah</p>
+                                                <div class="flex gap-2 mt-2">
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">NLP</span>
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">Chatbot</span>
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">Web App</span>
+                                                </div>
+                                            </div>
+                                            <span class="text-gray-500 text-sm">Terkunci</span>
+                                        </div>
+                                    </div>
+                                    <div class="p-4 border-2 border-dashed border-gray-300 rounded-lg">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <h4 class="font-semibold">📸 Smart Photo Organizer</h4>
+                                                <p class="text-sm text-gray-600">Aplikasi yang mengorganisir foto berdasarkan konten menggunakan computer vision</p>
+                                                <div class="flex gap-2 mt-2">
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">Computer Vision</span>
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">Classification</span>
+                                                    <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs">Mobile App</span>
+                                                </div>
+                                            </div>
+                                            <span class="text-gray-500 text-sm">Terkunci</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Completion Roadmap -->
+                            <div class="bg-white rounded-xl p-6 shadow-sm">
+                                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                                    <span class="text-2xl mr-2">🗺️</span>
+                                    Roadmap Penyelesaian
+                                </h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center p-4 bg-green-50 rounded-lg">
+                                        <div class="bg-green-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">✓</div>
+                                        <div>
+                                            <h4 class="font-semibold">Berpikir Komputasional</h4>
+                                            <p class="text-sm text-gray-600">Selesai - Nilai rata-rata: 90</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-4 bg-yellow-50 rounded-lg">
+                                        <div class="bg-yellow-500 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">⏳</div>
+                                        <div>
+                                            <h4 class="font-semibold">Literasi Digital</h4>
+                                            <p class="text-sm text-gray-600">Sedang berjalan - Progress: 75%</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center p-4 bg-gray-50 rounded-lg">
+                                        <div class="bg-gray-400 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold mr-4">3</div>
+                                        <div>
+                                            <h4 class="font-semibold">Algoritma Pemrograman → Analisis Data → LEKA → PPKA</h4>
+                                            <p class="text-sm text-gray-600">Selesaikan secara berurutan untuk membuka modul ini</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+
+            // Update content
+            const data = contentData[section];
+            if (data) {
+                document.getElementById('contentTitle').textContent = data.title;
+                document.getElementById('contentSubtitle').textContent = data.subtitle;
+                document.getElementById('contentArea').innerHTML = `<div class="content-fade">${data.content}</div>`;
+            }
+        }
+
+        function openConsultation() {
+            alert('💬 Fitur konsultasi akan membuka form untuk mengirim pertanyaan kepada guru. Guru akan merespons melalui email atau platform pembelajaran.');
+        }
+
+        // Initialize with dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for menu items
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active class from all items
+                    document.querySelectorAll('.menu-item').forEach(menuItem => {
+                        menuItem.classList.remove('active');
+                    });
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97650e8d3178822b',t:'MTc1NjM5NzE5Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
